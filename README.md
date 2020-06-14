@@ -4,9 +4,9 @@ Lista de playbooks personales para automatizar trabajos de administracion
 Playbooks:
 ---------
 
-- [playbook-checker-mac.yml](https://github.com/jkauze/ansible/playbook-checker-mac.yml) - Setea/Verifica que exista el entorno minimo necesario en X maquinas
+- [playbook-checker-mac.yml](https://github.com/jkauze/ansible/blob/master/playbook-checker-mac.yml) - Setea/Verifica que exista el entorno minimo necesario en X maquinas
 
-- [playbook-sync-mac.yml](https://github.com/jkauze/ansible/playbook-sync-mac.yml) - Sincroniza/Verifica X maquinas destinos con respecto a una maquina fuente
+- [playbook-sync-mac.yml](https://github.com/jkauze/ansible/blob/master/playbook-sync-mac.yml) - Sincroniza/Verifica X maquinas destinos con respecto a una maquina fuente
 
 Recordatorio de requisitos:
 ---------

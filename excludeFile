@@ -1,2 +1,15 @@
-FILE
-NOPASAR
+/etc/udev/rules.d/70-persistent-net.rules
+/etc/hosts
+/tmp
+/proc
+/sys
+/dev
+/media
+/etc/hostname
+/mnt
+/etc/fstab
+/root/.ssh
+/home/invitado/.cache/mozilla
+/etc/default/keyboard
+./
+/etc/ansible/hosts

@@ -1,0 +1,19 @@
+---
+- hosts: #Tomar del invetario /etc/ansible/hosts
+  name: Probando ansible
+  become: yes
+  tasks:
+    - name: Verificando paquete rsync
+      apt: update_cache=yes name=rsync state=latest
+    - name: Sincronizando carpeta ansible
+      synchronize:
+        src: ./
+        dest: /
+        delete: yes
+        rsync_opts:
+          - "--delete"
+          - "--exclude-from=excludeFile"
+          - "-az"
+    - name: Actualizando Grub
+      shell: update-grub2
+

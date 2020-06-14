@@ -1,0 +1,62 @@
+---
+- hosts: #Tomar del invetario /etc/ansible/hosts
+  name: Verificador de software minimo .
+  become: yes
+  tasks:
+    - name: Updateando repositorios
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install base packages for docker
+      apt: name={{ item }}
+      loop: [ 'build-essential', 'apt-transport-https', 'ca-certificates', 'curl', 'virtualenv', 'software-properties-common', 'python3-pip', 'python-pip', 'python3-setuptools', 'python-setuptools', 'htop', 'terminator', 'vim', 'emacs', 'aptitude']
+
+    - name: Instalacion de CodeBlocks
+      apt:
+        name: codeblocks
+        state: present
+
+    - name: Instalacion de JDK 11
+      apt: name={{ item }}
+      loop: [ 'openjdk-11-jre', 'openjdk-11-jdk' ]
+
+    - name: Instalacion de GIT
+      apt:
+        name: git
+
+    - name: Instalacion de R
+      apt: name={{ item }}
+      loop: [ 'r-base', 'r-base-dev' ]
+
+    - name: Instalacion de fail2ban
+      apt:
+        name: fail2ban
+
+    - name: Instalacion de IDLES (Code)
+      apt:
+        name: code
+
+    - name: Instalacion de Haskell
+      apt:
+        name: haskell-platform
+
+    - name: Instalacion de Prolog
+      apt:
+        name: swi-prolog
+
+    - name: Instalacion de Haskell
+      apt:
+        name: haskell-platform
+
+    - name: Instalacion de Orange3
+      pip: name={{ item }}
+      loop: [ 'r-PyQt5', 'PyQtWebEngine', ' orange3']
+
+    - name: Upgradear todos los paquetes de forma segura
+      apt:
+        upgrade: safe
+
+    - name: Limpiar la cache de los paquetes inutiles
+      apt:
+        autoclean: yes

@@ -18,6 +18,12 @@ Recordatorio de requisitos:
 Recordatorio de instrucciones:
 ---------
 
+
+#### Para verificar antes de ejecutar (como root):
+```
+# ansible-playbook playbook-<x>-mac.yml --check
+```
+
 #### como root:
 ```
 # ansible-playbook playbook-<x>-mac.yml

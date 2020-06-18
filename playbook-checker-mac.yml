@@ -1,25 +1,34 @@
 ---
-- hosts: #Tomar del invetario /etc/ansible/hosts
-  name: Verificador de software minimo .
+- hosts: #HOSTS
+  name: Verificador de software minimo
   become: yes
   tasks:
+
+    - name: anadiendo repo vscode
+      shell:
+        cmd: curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg ;sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ ;rm /etc/apt/sources.list.d/vscode.list 2> /dev/null ; sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+        
     - name: Updateando repositorios
       apt:
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Install base packages for docker
+    - name: instalando vscode
+      apt: 
+        name: code
+
+    - name: Instalacion de paquetes esenciales
       apt: name={{ item }}
-      loop: [ 'build-essential', 'apt-transport-https', 'ca-certificates', 'curl', 'virtualenv', 'software-properties-common', 'python3-pip', 'python-pip', 'python3-setuptools', 'python-setuptools', 'htop', 'terminator', 'vim', 'emacs', 'aptitude']
+      loop: [ 'build-essential', 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'python-pip', 'python3-setuptools', 'python-setuptools', 'htop', 'terminator', 'vim', 'emacs', 'aptitude']
 
     - name: Instalacion de CodeBlocks
       apt:
         name: codeblocks
         state: present
 
-    - name: Instalacion de JDK 11
+    - name: Instalacion de Default JDK - JRE (Java)  
       apt: name={{ item }}
-      loop: [ 'openjdk-11-jre', 'openjdk-11-jdk' ]
+      loop: [ 'default-jre', 'default-jdk' ]
 
     - name: Instalacion de GIT
       apt:
@@ -33,10 +42,10 @@
       apt:
         name: fail2ban
 
-    - name: Instalacion de IDLES (Code)
-      apt:
-        name: code
-
+        #- name: instalando IDLE (vscode)
+        #shell:
+        #cmd: dpkg -i /tmp/code*.deb
+    
     - name: Instalacion de Haskell
       apt:
         name: haskell-platform
@@ -48,10 +57,6 @@
     - name: Instalacion de Haskell
       apt:
         name: haskell-platform
-
-    - name: Instalacion de Orange3
-      pip: name={{ item }}
-      loop: [ 'r-PyQt5', 'PyQtWebEngine', ' orange3']
 
     - name: Upgradear todos los paquetes de forma segura
       apt:

@@ -5,7 +5,8 @@
   tasks:
 
     - name: anadiendo repo vscode
-      shell:
+      shell: 
+        warn: False
         cmd: curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg ;sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ ;rm /etc/apt/sources.list.d/vscode.list 2> /dev/null ; sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
         
     - name: Updateando repositorios
@@ -58,6 +59,25 @@
       apt:
         name: haskell-platform
 
+    # Esto es para que no salga el prompt de pantalla de wireshark (lo acepta)
+    - name: Instalacion wireshark
+      shell:
+        cmd: echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections; sudo DEBIAN_FRONTEND=noninteractive apt-get -y install wireshark
+    
+    - name: Anadir al usuario Invitado al grupo de wireshark
+      user:
+        name: invitado
+        groups: wireshark
+        append: yes   
+
+    - name: Crear el usuario preparador 
+      user:
+         name: preparador
+         groups: sudo,wireshark
+         append: yes
+         password: "{{ 'preparador' | password_hash('sha512') }}"
+         skeleton: /etc/skel/
+
     - name: Upgradear todos los paquetes de forma segura
       apt:
         upgrade: safe
@@ -65,3 +85,5 @@
     - name: Limpiar la cache de los paquetes inutiles
       apt:
         autoclean: yes
+
+        
